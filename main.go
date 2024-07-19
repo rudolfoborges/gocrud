@@ -34,9 +34,14 @@ func main() {
 	app.GET("/users/{id}", func(c *gofr.Context) (interface{}, error) {
 		id, _ := strconv.Atoi(c.PathParam("id"))
 
-		var count int
+		var count int64
 
-		c.SQL.Select(c, &count, "select count(*) from users where id = ?", id)
+		row := c.SQL.QueryRow("select count(*) from users where id = ?", id)
+
+		err := row.Scan(&count)
+		if err != nil {
+			return nil, err
+		}
 
 		if count == 0 {
 			return nil, http.ErrorEntityNotFound{
