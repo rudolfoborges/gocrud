@@ -1,0 +1,5 @@
+docker run --name mysql-gocrud \
+-e MYSQL_ROOT_PASSWORD=root \
+-e MYSQL_DATABASE=gocrud \
+-p 3306:3306 \
+-d mysql:8.0.30
